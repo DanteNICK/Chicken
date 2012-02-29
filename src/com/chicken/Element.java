@@ -22,8 +22,8 @@ public class Element extends Sprite {
 
 	public void update() {
 
-		if (800 - 64 * rowNumber > getY())
-			setPosition(getX(), getY() - 1);
+		if (800 - 68 * (rowNumber+1) > getY())
+			setPosition(getX(), getY() + 4);
 
 	}
 }

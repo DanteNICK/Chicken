@@ -9,7 +9,7 @@ public class SquareManager {
 
 	public TextureRegion textureRegion;
 
-	public int width, height = 64;
+	public int width = 68, height = 68;
 
 	public SquareManager() {
 		textureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
@@ -21,7 +21,7 @@ public class SquareManager {
 	public void create() {
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 7; j++) {
-				matrix[i][j] = new Element(width * j, -height * i - height, i,
+				matrix[i][j] = new Element(4+ width * j, -height * i - height, i,
 						j, textureRegion);
 				matrix[i][j].create();
 			}

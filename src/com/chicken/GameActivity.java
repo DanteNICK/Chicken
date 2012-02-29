@@ -2,13 +2,13 @@ package com.chicken;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.handler.timer.ITimerCallback;
+import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.WakeLockOptions;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -59,24 +59,41 @@ public class GameActivity extends BaseGameActivity {
 		getTextureManager().loadTextures(resourcesAtlas);
 	}
 
+	static SquareManager squareManager;
+
 	@Override
 	public Scene onLoadScene() {
 		// TODO Auto-generated method stub
 		mEngine.registerUpdateHandler(new FPSLogger());
+
 		scene = new Scene();
 
-		Sprite b = new Sprite(0, 0,
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-						resourcesAtlas, getApplicationContext(), "blue.png", 0,
-						0));
-		scene.setBackground(new ColorBackground(1, 0, 0));
-		scene.attachChild(b);
+		// Sprite b = new Sprite(0, 0,
+		// BitmapTextureAtlasTextureRegionFactory.createFromAsset(
+		// resourcesAtlas, getApplicationContext(), "blue.png", 0,
+		// 0));
+		// scene.setBackground(new ColorBackground(1, 0, 0));
+		// scene.attachChild(b);
 		// scene.registerUpdateHandler(new ITimerCallback(){
 		// @Override
 		// public void onTimePassed(final TimerHandler pTimerHandler) {
 		//
 		// }
 		// });
+		squareManager = new SquareManager();
+
+		squareManager.create();
+
+		scene.registerUpdateHandler(new TimerHandler(1f / 20.0f, true,
+				new ITimerCallback() {
+
+					@Override
+					public void onTimePassed(TimerHandler arg0) {
+						squareManager.update();
+					}
+
+				}));
+
 		return scene;
 	}
 
