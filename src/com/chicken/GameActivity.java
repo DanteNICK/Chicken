@@ -20,6 +20,7 @@ import android.util.DisplayMetrics;
 
 public class GameActivity extends BaseGameActivity {
 	public static Context context;
+	public static Scene scene;
 
 	@Override
 	public Engine onLoadEngine() {
@@ -62,7 +63,7 @@ public class GameActivity extends BaseGameActivity {
 	public Scene onLoadScene() {
 		// TODO Auto-generated method stub
 		mEngine.registerUpdateHandler(new FPSLogger());
-		Scene scene = new Scene();
+		scene = new Scene();
 
 		Sprite b = new Sprite(0, 0,
 				BitmapTextureAtlasTextureRegionFactory.createFromAsset(
