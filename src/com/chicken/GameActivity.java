@@ -2,8 +2,6 @@ package com.chicken;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
-import org.anddev.andengine.engine.handler.timer.ITimerCallback;
-import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.WakeLockOptions;
@@ -17,13 +15,17 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import android.content.Context;
 import android.util.DisplayMetrics;
 
 public class GameActivity extends BaseGameActivity {
+	public static Context context;
 
 	@Override
 	public Engine onLoadEngine() {
+		context = this.getApplicationContext();
 		// TODO Auto-generated method stub
+
 		Camera camera = new Camera(0, 0, Options.CAMERA_WIDTH,
 				Options.CAMERA_HEIGHT);
 		DisplayMetrics dm = new DisplayMetrics();
@@ -68,12 +70,12 @@ public class GameActivity extends BaseGameActivity {
 						0));
 		scene.setBackground(new ColorBackground(1, 0, 0));
 		scene.attachChild(b);
-//		scene.registerUpdateHandler(new ITimerCallback(){ 
-//			@Override
-//			 public void onTimePassed(final TimerHandler pTimerHandler) {
-//				
-//			}
-//			});
+		// scene.registerUpdateHandler(new ITimerCallback(){
+		// @Override
+		// public void onTimePassed(final TimerHandler pTimerHandler) {
+		//
+		// }
+		// });
 		return scene;
 	}
 
