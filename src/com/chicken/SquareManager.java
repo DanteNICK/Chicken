@@ -16,4 +16,10 @@ public class SquareManager {
 				matrix[i][j] = new Element(width * j, -height * i - height);
 	}
 
+	public void update() {
+		for (int i = 0; i < 7; i++)
+			for (int j = 0; j < 7; j++)
+				matrix[i][j].update();
+	}
+
 }
