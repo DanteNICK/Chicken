@@ -1,15 +1,29 @@
 package com.chicken;
 
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 public class Element extends Sprite {
 
-	public Element(float x, float y) {
+	public int rowNumber, collNumber;
 
-		super(x, y, null);
+	public Element(final float x, final float y, final int rowNumber,
+			final int collNumber, TextureRegion textureRegion) {
+
+		super(x, y, textureRegion.deepCopy());
+		this.rowNumber = rowNumber;
+		this.collNumber = collNumber;
+	}
+
+	public void create() {
+		GameActivity.scene.attachChild(this);
+
 	}
 
 	public void update() {
+
+		if (800 - 64 * rowNumber > getY())
+			setPosition(getX(), getY() - 1);
 
 	}
 }
