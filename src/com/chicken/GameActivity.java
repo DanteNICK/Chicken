@@ -21,6 +21,8 @@ import android.util.DisplayMetrics;
 public class GameActivity extends BaseGameActivity {
 	public static Context context;
 	public static Scene scene;
+	
+	public static Element elementTouched;
 
 	@Override
 	public Engine onLoadEngine() {
@@ -90,6 +92,7 @@ public class GameActivity extends BaseGameActivity {
 					@Override
 					public void onTimePassed(TimerHandler arg0) {
 						squareManager.update();
+						
 					}
 
 				}));
