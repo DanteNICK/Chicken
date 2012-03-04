@@ -1,12 +1,9 @@
 package com.chicken;
 
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.modifier.ScaleModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.util.modifier.IModifier;
-import org.anddev.andengine.util.modifier.IModifier.IModifierListener;
 
 public class Element extends Sprite {
 
@@ -29,6 +26,9 @@ public class Element extends Sprite {
 
 		if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber + 1) > getY())
 			setPosition(getX(), getY() + 4);
+		
+		
+		
 		/*
 		 * if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber+1)
 		 * -(Options.ELEMENT_CELL_SIZE/2)*(collNumber%2)> getY())
@@ -37,33 +37,49 @@ public class Element extends Sprite {
 
 	}
 
+	/*
+	 * @Override public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+	 * final float pTouchAreaLocalX, final float pTouchAreaLocalY) { if
+	 * (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) { ScaleModifier
+	 * modifier = new ScaleModifier(0.5f, 1f, 0.2f);
+	 * modifier.setRemoveWhenFinished(true); modifier.addModifierListener(new
+	 * IModifierListener<IEntity>() {
+	 * 
+	 * @Override public void onModifierFinished(IModifier<IEntity> arg0, IEntity
+	 * arg1) { //arg1.setScale(1f); }
+	 * 
+	 * @Override public void onModifierStarted(IModifier<IEntity> arg0, IEntity
+	 * arg1) {
+	 * 
+	 * }
+	 * 
+	 * }); registerEntityModifier(modifier); }
+	 * 
+	 * if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) { ScaleModifier
+	 * modifier = new ScaleModifier(0.5f, 0.2f, 1f);
+	 * modifier.setRemoveWhenFinished(true); registerEntityModifier(modifier); }
+	 * return true; } }
+	 */
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
 			final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-			ScaleModifier modifier = new ScaleModifier(0.5f, 1f, 0.2f);
-			modifier.setRemoveWhenFinished(true);
-			modifier.addModifierListener(new IModifierListener<IEntity>() {
-
-				@Override
-				public void onModifierFinished(IModifier<IEntity> arg0, IEntity arg1) {
-					//arg1.setScale(1f);
-				}
-
-				@Override
-				public void onModifierStarted(IModifier<IEntity> arg0, IEntity arg1) {
-
-				}
-
-			});
-			registerEntityModifier(modifier);
+			/*(ScaleModifier modifier = new ScaleModifier(2f, 1f, 0.2f);
+			modifier.setRemoveWhenFinished(false);
+			registerEntityModifier(modifier);*/
+			if(SquareManager.el_1 == null)
+			{
+				SquareManager.el_1 = Element.this;
+			}
+			else 
+			{
+				SquareManager.el_2 = Element.this;
 			}
 		
-//			if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-//				ScaleModifier modifier = new ScaleModifier(0.5f, 0.2f, 1f);
-//				modifier.setRemoveWhenFinished(true);
-//				registerEntityModifier(modifier);
-		// }
-		return true;
+		}
+		
+		return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+				pTouchAreaLocalY);
+
 	}
 }

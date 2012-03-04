@@ -8,6 +8,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 public class SquareManager {
 
 	public Element[][] matrix;
+	public static Element el_1 = null;
+	public static Element el_2 = null;
 
 	public Random randomIndex = new Random();
 	public TextureRegion textureRegion;
@@ -55,9 +57,30 @@ public class SquareManager {
 	}
 
 	public void update() {
-		for (int i = 0; i < Options.COUNT_OF_ROW; i++)
-			for (int j = 0; j < Options.COUNT_OF_COLL; j++)
+		for (int i = 0; i < Options.COUNT_OF_ROW; i++) {
+			for (int j = 0; j < Options.COUNT_OF_COLL; j++) {
 				matrix[i][j].update();
+			}
+		}
+		if(el_1 !=null && el_2!=null)
+		{
+			
+			
+		/*Element element = el_1;
+		el_1.setPosition(el_2.getX(), el_2.getY());
+		el_2.setPosition(element.getX(), element.getY());
+		
+		el_1.collNumber = el_2.collNumber;
+		el_2.collNumber = element.collNumber;
+		
+		el_1.rowNumber = el_2.rowNumber;
+		el_2.rowNumber = element.rowNumber;*/
+		
+			
+			el_1 = null;
+			el_2 = null;
+			
+		}
 	}
 
 }
