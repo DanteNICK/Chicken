@@ -26,7 +26,7 @@ public class GameActivity extends BaseGameActivity {
 
 	public static Scene scene;
 
-	static SquareManager1 squareManager;
+	static SquareManager squareManager;
 
 	@Override
 	public void onLoadComplete() {
@@ -88,7 +88,7 @@ public class GameActivity extends BaseGameActivity {
 		//
 		// }
 		// });
-		squareManager = new SquareManager1();
+		squareManager = new SquareManager();
 
 		squareManager.create();
 

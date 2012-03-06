@@ -65,19 +65,27 @@ public class SquareManager {
 		}
 		if (el_1 != null && el_2 != null) {
 
-			/*
-			 * Element element = el_1; el_1.setPosition(el_2.getX(),
-			 * el_2.getY()); el_2.setPosition(element.getX(), element.getY());
-			 * 
-			 * el_1.collNumber = el_2.collNumber; el_2.collNumber =
-			 * element.collNumber;
-			 * 
-			 * el_1.rowNumber = el_2.rowNumber; el_2.rowNumber =
-			 * element.rowNumber;
-			 */
+			
+			float x = el_1.getX();
+			float y = el_1.getY();
+			el_1.setPosition(el_2.getX(), el_2.getY());
+			el_2.setPosition(x, y);
 
+			int r = el_1.rowNumber;
+			int c = el_1.collNumber;
+
+			el_1.rowNumber = el_2.rowNumber;
+			el_1.collNumber = el_2.collNumber;
+
+			el_2.rowNumber = r;
+			el_2.collNumber = c;
+
+			this.coincidence();
+			
 			el_1 = null;
 			el_2 = null;
+			
+			
 
 		}
 	}
@@ -115,7 +123,7 @@ public class SquareManager {
 				else {
 					if (currentElements.size() >= 3) {
 						for (int i = currentElements.size(); i > 0; i--) {
-							matrix[row][col - i] = null;
+							matrix[row][col - i].setRotation(30);
 							coincidenceExist = true;
 						}
 					} else {
@@ -132,7 +140,7 @@ public class SquareManager {
 				else {
 					if (currentElements.size() >= 3) {
 						for (int i = currentElements.size(); i > 0; i--) {
-							matrix[row - i][col] = null;
+							matrix[row - i][col].setRotation(30);
 							coincidenceExist = true;
 						}
 					} else {
@@ -142,6 +150,7 @@ public class SquareManager {
 				}
 
 			}
+		
 		return coincidenceExist;
 	}
 }
