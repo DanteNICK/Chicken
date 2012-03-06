@@ -20,9 +20,19 @@ import android.util.DisplayMetrics;
 
 public class GameActivity extends BaseGameActivity {
 	public static Context context;
-	public static Scene scene;
-	
 	public static Element elementTouched;
+	
+	public static BitmapTextureAtlas resourcesAtlas;
+
+	public static Scene scene;
+
+	static SquareManager1 squareManager;
+
+	@Override
+	public void onLoadComplete() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	public Engine onLoadEngine() {
@@ -48,8 +58,6 @@ public class GameActivity extends BaseGameActivity {
 		return engine;
 	}
 
-	public static BitmapTextureAtlas resourcesAtlas;
-
 	@Override
 	public void onLoadResources() {
 		// TODO Auto-generated method stub
@@ -60,8 +68,6 @@ public class GameActivity extends BaseGameActivity {
 
 		getTextureManager().loadTextures(resourcesAtlas);
 	}
-
-	static SquareManager squareManager;
 
 	@Override
 	public Scene onLoadScene() {
@@ -82,7 +88,7 @@ public class GameActivity extends BaseGameActivity {
 		//
 		// }
 		// });
-		squareManager = new SquareManager();
+		squareManager = new SquareManager1();
 
 		squareManager.create();
 
@@ -98,12 +104,6 @@ public class GameActivity extends BaseGameActivity {
 				}));
 
 		return scene;
-	}
-
-	@Override
-	public void onLoadComplete() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
