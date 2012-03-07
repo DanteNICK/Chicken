@@ -1,6 +1,5 @@
 package com.chicken;
 
-import org.anddev.andengine.entity.modifier.ScaleModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -8,6 +7,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 public class Element extends Sprite {
 
 	public int rowNumber, collNumber;
+	public int index;
 
 	public Element(final float x, final float y, final int rowNumber,
 			final int collNumber, TextureRegion textureRegion) {
@@ -26,9 +26,7 @@ public class Element extends Sprite {
 
 		if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber + 1) > getY())
 			setPosition(getX(), getY() + 4);
-		
-		
-		
+
 		/*
 		 * if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber+1)
 		 * -(Options.ELEMENT_CELL_SIZE/2)*(collNumber%2)> getY())
@@ -64,20 +62,25 @@ public class Element extends Sprite {
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
 			final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-			/*(ScaleModifier modifier = new ScaleModifier(2f, 1f, 0.2f);
-			modifier.setRemoveWhenFinished(false);
-			registerEntityModifier(modifier);*/
-			if(SquareManager.el_1 == null)
-			{
+			// ScaleModifier modifier = new ScaleModifier(0.5f, 1f, 0.7f);
+			// modifier.setRemoveWhenFinished(true);
+			// registerEntityModifier(modifier);
+
+			if (SquareManager.el_1 == null) {
 				SquareManager.el_1 = Element.this;
+				SquareManager.el_1.setScale(0.7f);
+			} else {
+				if (SquareManager.el_1 == this) {
+					SquareManager.el_1 = null;
+				} else if (Math.abs(SquareManager.el_1.rowNumber - rowNumber)
+						+ Math.abs(SquareManager.el_1.collNumber - collNumber) == 1) {
+					SquareManager.el_2 = Element.this;
+					SquareManager.el_2.setScale(0.7f);
+				}
 			}
-			else 
-			{
-				SquareManager.el_2 = Element.this;
-			}
-		
+
 		}
-		
+
 		return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
 				pTouchAreaLocalY);
 

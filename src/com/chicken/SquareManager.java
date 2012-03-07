@@ -53,6 +53,7 @@ public class SquareManager {
 				matrix[i][j] = new Element(Options.CELL_THICK + width * j,
 						-height * i - height, i, j, textureRegion);
 				matrix[i][j].create();
+				matrix[i][j].index = index;
 			}
 		}
 	}
@@ -65,7 +66,6 @@ public class SquareManager {
 		}
 		if (el_1 != null && el_2 != null) {
 
-			
 			float x = el_1.getX();
 			float y = el_1.getY();
 			el_1.setPosition(el_2.getX(), el_2.getY());
@@ -80,12 +80,35 @@ public class SquareManager {
 			el_2.rowNumber = r;
 			el_2.collNumber = c;
 
-			this.coincidence();
-			
+			// coincidence();
+			for (int row = 0; row < Options.COUNT_OF_ROW; row++) {
+				for (int coll = 0; coll < Options.COUNT_OF_COLL - 2; coll++) {
+					if (matrix[row][coll].index == matrix[row][coll + 1].index
+							&& matrix[row][coll].index == matrix[row][coll + 2].index) {
+						// TODO: Change for something right.
+						matrix[row][coll].setRotation(30);
+						matrix[row][coll + 1].setRotation(30);
+						matrix[row][coll + 2].setRotation(30);
+					}
+				}
+			}
+			for (int coll = 0; coll < Options.COUNT_OF_COLL; coll++) {
+				for (int row = 0; row < Options.COUNT_OF_ROW - 2; row++) {
+					if (matrix[row][coll].index == matrix[row + 1][coll].index
+							&& matrix[row][coll].index == matrix[row + 2][coll].index) {
+						// TODO: Change for something right.
+						matrix[row][coll].setRotation(30);
+						matrix[row + 1][coll].setRotation(30);
+						matrix[row + 2][coll].setRotation(30);
+					}
+				}
+			}
+
+			el_1.setScale(1);
+			el_2.setScale(1);
+
 			el_1 = null;
 			el_2 = null;
-			
-			
 
 		}
 	}
@@ -150,7 +173,7 @@ public class SquareManager {
 				}
 
 			}
-		
+
 		return coincidenceExist;
 	}
 }
