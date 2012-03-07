@@ -1,13 +1,19 @@
 package com.chicken;
 
+import org.anddev.andengine.entity.IEntity;
+import org.anddev.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
+import org.anddev.andengine.entity.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.util.modifier.IModifier;
 
 public class Element extends Sprite {
 
 	public int rowNumber, collNumber;
 	public int index;
+
+	private boolean isMove = false;
 
 	public Element(final float x, final float y, final int rowNumber,
 			final int collNumber, TextureRegion textureRegion) {
@@ -24,15 +30,35 @@ public class Element extends Sprite {
 
 	public void update() {
 
-		if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber + 1) > getY())
-			setPosition(getX(), getY() + 4);
+		// if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber +
+		// 1) > getY())
+		// setPosition(getX(), getY() + 4);
 
-		/*
-		 * if (Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE * (rowNumber+1)
-		 * -(Options.ELEMENT_CELL_SIZE/2)*(collNumber%2)> getY())
-		 * setPosition(getX(), getY() + 4);
-		 */
+		if (!isMove) {
+			float rightX = Options.ELEMENT_CELL_SIZE * collNumber
+					+ Options.CELL_THICK;
+			float rightY = Options.CAMERA_HEIGHT - Options.ELEMENT_CELL_SIZE
+					* rowNumber - Options.ELEMENT_CELL_SIZE
+					+ Options.CELL_THICK;
+			// - (Options.ELEMENT_CELL_SIZE / 2) * (collNumber % 2);
+			if (getX() != rightX || getY() != rightY) {
+				isMove = true;
+				MoveModifier moveModifier = new MoveModifier(5f, getX(),
+						rightX, getY(), rightY, new IEntityModifierListener() {
+							@Override
+							public void onModifierFinished(
+									IModifier<IEntity> arg0, IEntity arg1) {
+								Element.this.isMove = false;
+							}
 
+							@Override
+							public void onModifierStarted(
+									IModifier<IEntity> arg0, IEntity arg1) {
+							}
+						});
+				registerEntityModifier(moveModifier);
+			}
+		}
 	}
 
 	/*

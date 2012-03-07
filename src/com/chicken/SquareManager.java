@@ -50,8 +50,11 @@ public class SquareManager {
 										+ ".png", 0, Options.ELEMENT_SIZE
 										* index);
 
-				matrix[i][j] = new Element(Options.CELL_THICK + width * j,
-						-height * i - height, i, j, textureRegion);
+				// matrix[i][j] = new Element(Options.CELL_THICK + width * j,
+				// -height * i - height, i, j, textureRegion);
+				matrix[i][j] = new Element(randomIndex.nextFloat()
+						* Options.CAMERA_HEIGHT, randomIndex.nextFloat()
+						* Options.CAMERA_WIDTH, i, j, textureRegion);
 				matrix[i][j].create();
 				matrix[i][j].index = index;
 			}
@@ -66,42 +69,32 @@ public class SquareManager {
 		}
 		if (el_1 != null && el_2 != null) {
 
-			float x = el_1.getX();
-			float y = el_1.getY();
-			el_1.setPosition(el_2.getX(), el_2.getY());
-			el_2.setPosition(x, y);
-
-			int r = el_1.rowNumber;
-			int c = el_1.collNumber;
-
-			el_1.rowNumber = el_2.rowNumber;
-			el_1.collNumber = el_2.collNumber;
-
-			el_2.rowNumber = r;
-			el_2.collNumber = c;
+			// Change elements in matrix.
+			matrix[el_1.rowNumber][el_1.collNumber] = el_2;
+			matrix[el_2.rowNumber][el_2.collNumber] = el_1;
 
 			// coincidence();
-			for (int row = 0; row < Options.COUNT_OF_ROW; row++) {
-				for (int coll = 0; coll < Options.COUNT_OF_COLL - 2; coll++) {
-					if (matrix[row][coll].index == matrix[row][coll + 1].index
-							&& matrix[row][coll].index == matrix[row][coll + 2].index) {
-						// TODO: Change for something right.
-						matrix[row][coll].setRotation(30);
-						matrix[row][coll + 1].setRotation(30);
-						matrix[row][coll + 2].setRotation(30);
-					}
-				}
-			}
-			for (int coll = 0; coll < Options.COUNT_OF_COLL; coll++) {
-				for (int row = 0; row < Options.COUNT_OF_ROW - 2; row++) {
-					if (matrix[row][coll].index == matrix[row + 1][coll].index
-							&& matrix[row][coll].index == matrix[row + 2][coll].index) {
-						// TODO: Change for something right.
-						matrix[row][coll].setRotation(30);
-						matrix[row + 1][coll].setRotation(30);
-						matrix[row + 2][coll].setRotation(30);
-					}
-				}
+			if (coincidenceAlternative()) {
+				// Change position of el_1 and el_2. Try to delete this code by
+				// adding of setMatrixPosition(row,col)!
+				float x = el_1.getX();
+				float y = el_1.getY();
+				el_1.setPosition(el_2.getX(), el_2.getY());
+				el_2.setPosition(x, y);
+
+				// Change row number and count number of el_1 and el_2.
+				int r = el_1.rowNumber;
+				int c = el_1.collNumber;
+				el_1.rowNumber = el_2.rowNumber;
+				el_1.collNumber = el_2.collNumber;
+				el_2.rowNumber = r;
+				el_2.collNumber = c;
+
+			} else {
+				// Change elements el_1 and ek_2 in start state if we don't have
+				// right groups of elements.
+				matrix[el_1.rowNumber][el_1.collNumber] = el_1;
+				matrix[el_2.rowNumber][el_2.collNumber] = el_2;
 			}
 
 			el_1.setScale(1);
@@ -175,5 +168,52 @@ public class SquareManager {
 			}
 
 		return coincidenceExist;
+	}
+
+	public boolean coincidenceAlternative() {
+		// TODO: Delete after verification.
+		for (int i = 0; i < Options.COUNT_OF_ROW; i++) {
+			for (int j = 0; j < Options.COUNT_OF_COLL; j++) {
+				matrix[i][j].setRotation(0);
+			}
+		}
+
+		boolean isChange = false;
+
+		for (int row = 0; row < Options.COUNT_OF_ROW; row++) {
+			for (int coll_start = 0; coll_start < Options.COUNT_OF_COLL; coll_start++) {
+				int coll_i = 0;
+				for (; coll_start + coll_i + 1 < Options.COUNT_OF_COLL
+						&& matrix[row][coll_start + coll_i + 1].index == matrix[row][coll_start].index; coll_i++)
+					;
+				if (coll_i >= 2) {
+					for (int i = 0; i <= coll_i; i++) {
+						// TODO: Change for something right.
+						matrix[row][coll_start + i].setRotation(30);
+					}
+					isChange = true;
+				}
+				coll_start = coll_start + coll_i;
+			}
+		}
+
+		for (int coll = 0; coll < Options.COUNT_OF_COLL; coll++) {
+			for (int row_start = 0; row_start < Options.COUNT_OF_ROW; row_start++) {
+				int row_i = 0;
+				for (; row_start + row_i + 1 < Options.COUNT_OF_ROW
+						&& matrix[row_start + row_i + 1][coll].index == matrix[row_start][coll].index; row_i++)
+					;
+				if (row_i >= 2) {
+					for (int i = 0; i <= row_i; i++) {
+						// TODO: Change for something right.
+						matrix[row_start + i][coll].setRotation(30);
+					}
+					isChange = true;
+				}
+				row_start = row_start + row_i;
+			}
+		}
+
+		return isChange;
 	}
 }
